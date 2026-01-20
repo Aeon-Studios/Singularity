@@ -3,6 +3,7 @@ package io.papermc.paper.event.connection;
 import io.papermc.paper.connection.PlayerConnection;
 import net.kyori.adventure.text.Component;
 import org.bukkit.event.Event;
+import org.bukkit.event.EventTmp;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
@@ -13,7 +14,7 @@ import org.jspecify.annotations.Nullable;
  * Called when is attempting to log in for the first time, or is finishing up
  * being configured.
  */
-public class PlayerConnectionValidateLoginEvent extends Event {
+public class PlayerConnectionValidateLoginEvent extends EventTmp {
 
     private static final HandlerList HANDLER_LIST = new HandlerList();
 
