@@ -32,6 +32,11 @@ jobs:
           java-version: 25
           cache: gradle
 
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
       - name: Grant execute permission
         run: chmod +x gradlew
 
