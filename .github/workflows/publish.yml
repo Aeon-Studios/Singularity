@@ -27,9 +27,6 @@ jobs:
           fi
         shell: bash
 
-      - name: List Gradle tasks
-        run: ./gradlew tasks --all
-
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
@@ -44,6 +41,9 @@ jobs:
 
       - name: Grant execute permission
         run: chmod +x gradlew
+
+      - name: List Gradle tasks
+        run: ./gradlew tasks --all
 
       - name: Apply Patches
         run: ./gradlew applyPatches
