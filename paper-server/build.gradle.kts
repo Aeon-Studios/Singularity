@@ -1,6 +1,8 @@
 import io.papermc.fill.model.BuildChannel
 import io.papermc.paperweight.attribute.DevBundleOutput
 import io.papermc.paperweight.util.*
+import java.nio.file.Files
+import java.nio.file.Paths
 import java.time.Instant
 
 plugins {
@@ -368,6 +370,49 @@ fill {
             register("server:default") {
                 file = tasks.createMojmapPaperclipJar.flatMap { it.outputZip }
                 nameResolver.set { project, _, version, build -> "$project-$version-$build.jar" }
+            }
+        }
+    }
+}
+
+tasks.register<Copy>("align") {
+    group = "singularity"
+
+    from("$buildDir/libs/paper-bundler-1.21.11-R0.1-SNAPSHOT-mojmap.jar")
+
+    into("singularity")
+    rename {"singularity.jar"}
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("singularity") {
+            artifact("singularity/singularity.jar")
+
+            groupId = "com.aeon"
+            artifactId = "singularity"
+            version = if (project.hasProperty("ver")) {
+                project.property("ver") as String
+            } else {
+                "d2026.0.0.1"
+            }
+        }
+    }
+
+    repositories {
+        if (System.getenv("GITHUB_ACTIONS").isNullOrEmpty()) {
+            maven {
+                name = "GithubPackages"
+                url = uri("https://maven.pkg.github.com/Aeon-Studios/Singularity")
+                credentials {
+                    username = providers.gradleProperty("gpr.user")
+                        .orElse(providers.environmentVariable("GITHUB_ACTOR"))
+                        .getOrElse("default-username")
+
+                    password = providers.gradleProperty("gpr.token")
+                        .orElse(providers.environmentVariable("GITHUB_TOKEN"))
+                        .getOrElse("default-token")
+                }
             }
         }
     }
