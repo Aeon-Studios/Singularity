@@ -47,12 +47,12 @@ paperweight {
     }
 }
 
-tasks.generateDevelopmentBundle {
-    libraryRepositories.addAll(
-        "https://repo.maven.apache.org/maven2/",
-        paperMavenPublicUrl,
-    )
-}
+// tasks.generateDevelopmentBundle {
+//     libraryRepositories.addAll(
+//         "https://repo.maven.apache.org/maven2/",
+//         paperMavenPublicUrl,
+//     )
+// }
 
 abstract class Services {
     @get:Inject
