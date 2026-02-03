@@ -47,12 +47,12 @@ paperweight {
     }
 }
 
-// tasks.generateDevelopmentBundle {
-//     libraryRepositories.addAll(
-//         "https://repo.maven.apache.org/maven2/",
-//         paperMavenPublicUrl,
-//     )
-// }
+tasks.generateDevelopmentBundle {
+    libraryRepositories.addAll(
+        "https://repo.maven.apache.org/maven2/",
+        paperMavenPublicUrl,
+    )
+}
 
 abstract class Services {
     @get:Inject
@@ -400,19 +400,17 @@ publishing {
     }
 
     repositories {
-        if (System.getenv("GITHUB_ACTIONS").isNullOrEmpty()) {
-            maven {
-                name = "GithubPackages"
-                url = uri("https://maven.pkg.github.com/Aeon-Studios/Singularity")
-                credentials {
-                    username = providers.gradleProperty("gpr.user")
-                        .orElse(providers.environmentVariable("GITHUB_ACTOR"))
-                        .getOrElse("default-username")
+        maven {
+            name = "GithubPackages"
+            url = uri("https://maven.pkg.github.com/Aeon-Studios/Singularity")
+            credentials {
+                username = providers.gradleProperty("gpr.user")
+                    .orElse(providers.environmentVariable("GITHUB_ACTOR"))
+                    .getOrElse("default-username")
 
-                    password = providers.gradleProperty("gpr.token")
-                        .orElse(providers.environmentVariable("GITHUB_TOKEN"))
-                        .getOrElse("default-token")
-                }
+                password = providers.gradleProperty("gpr.token")
+                    .orElse(providers.environmentVariable("GITHUB_TOKEN"))
+                    .getOrElse("default-token")
             }
         }
     }
